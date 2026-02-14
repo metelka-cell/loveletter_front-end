@@ -15,7 +15,7 @@
 
 <h2>Login</h2>
 <input id="log_user" placeholder="Username">
-<input id="log_pass" type="password" placeholder="Password">
+<input id="log_pass" type="password">
 <button onclick="login()">Login</button>
 
 <h2>Create Game</h2>
@@ -29,7 +29,7 @@
 <script>
 let currentGameId = null;
 
-// ⚠️ IMPORTANT: Replace this with your Render HTTPS backend URL
+// ⚠️ IMPORTANT: Put your Render backend HTTPS URL here
 const BACKEND_URL = "https://loveletter-backend.onrender.com";
 
 async function register() {
@@ -54,52 +54,4 @@ async function login() {
     try {
         const response = await fetch(`${BACKEND_URL}/login`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({
-                username: document.getElementById("log_user").value,
-                password: document.getElementById("log_pass").value
-            })
-        });
-        const data = await response.json();
-        alert(JSON.stringify(data));
-    } catch (err) {
-        console.error(err);
-        alert("Network error. Make sure backend URL is HTTPS and live.");
-    }
-}
-
-async function createGame() {
-    const playerList = document.getElementById("players").value.split(",");
-    try {
-        const response = await fetch(`${BACKEND_URL}/game/create`, {
-            method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({player_names: playerList})
-        });
-        const data = await response.json();
-        currentGameId = data.game_id;
-        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-    } catch (err) {
-        console.error(err);
-        alert("Network error. Make sure backend URL is HTTPS and live.");
-    }
-}
-
-async function getState() {
-    if (!currentGameId) {
-        alert("Create a game first!");
-        return;
-    }
-    try {
-        const response = await fetch(`${BACKEND_URL}/game/${currentGameId}/state`);
-        const data = await response.json();
-        document.getElementById("output").textContent = JSON.stringify(data, null, 2);
-    } catch (err) {
-        console.error(err);
-        alert("Network error. Make sure backend URL is HTTPS and live.");
-    }
-}
-</script>
-
-</body>
-</html>
+            headers:
